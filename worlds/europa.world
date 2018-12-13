@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<sdf version='1.4'>
+  <world name='default'>
+
+    <scene>
+      <ambient>0.0 0.0 0.0 1</ambient>
+      <!-- background>0.2 0.2 0.5 1</background -->
+      <background>0.0 0.0 0.2 1</background>
+      <shadows>1</shadows>
+      <grid>true</grid>
+    </scene>
+
+    <physics type='ode'>
+      <!-- max_step_size>0.01</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>100</real_time_update_rate -->
+      <!-- gravity on Europa -->
+      <gravity>0 0 -1.315</gravity>
+    </physics>
+
+    <include> <uri>model://ow_sun</uri> </include>
+    <include> <uri>model://ow_jupiter</uri> </include>
+
+    <include> <uri>model://ow_cubemap_sphere</uri> </include>
+
+    <model name='ground_plane'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>100</mu>
+                <mu2>100</mu2>
+              </ode>
+            </friction>
+            <bounce/>
+            <contact>
+              <ode/>
+            </contact>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='visual'>
+          <cast_shadows>false</cast_shadows>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+          </material>
+        </visual>
+        <velocity_decay>
+          <linear>0</linear>
+          <angular>0</angular>
+        </velocity_decay>
+        <self_collide>0</self_collide>
+        <kinematic>0</kinematic>
+        <gravity>1</gravity>
+        <pose>0 0 -0 0 -0 0</pose>
+      </link>
+    </model>
+
+    <state world_name='default'>
+      <sim_time>1631761200 0</sim_time> <!-- epoch: 2021-09-16T03:00:00 https://www.epochconverter.com -->
+    </state>
+
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose frame=''>3.0 -17.5 11.0   0 0.443999 1.65199</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+      <plugin name="near_far_clip" filename="libnear_far_clip_plugin.so" />
+    </gui>
+
+  </world>
+</sdf>
