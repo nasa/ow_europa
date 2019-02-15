@@ -21,7 +21,11 @@
     <include> <uri>model://ow_sun</uri> </include>
     <include> <uri>model://ow_jupiter</uri> </include>
 
-    <include> <uri>model://ow_cubemap_sphere</uri> </include>
+    <!-- Use light irradiance map plugin to generate irradiance environment map -->
+    <include>
+      <uri>model://ow_light_probe</uri>
+      <pose> 0 0 0 0 0 0</pose>
+    </include>
 
     <include>
       <uri>model://terminator</uri>
