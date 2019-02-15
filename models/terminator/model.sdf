@@ -1,0 +1,52 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+
+  <model name="heightmap">
+    <pose>0 0 0  0 0 0</pose>
+    <static>true</static>
+    <link name="link">
+      <collision name="collision">
+        <geometry>
+          <heightmap>
+            <uri>model://terminator/dem/terminator.tif</uri>
+            <sampling>1</sampling>
+            <size>5120 5120 120.81</size>
+            <pos>0 0 0</pos>
+          </heightmap>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>0.8</mu>
+              <mu2>0.8</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name="visual">
+        <cast_shadows>true</cast_shadows>
+        <geometry>
+          <heightmap>
+            <uri>model://terminator/dem/terminator.tif</uri>
+            <sampling>1</sampling>
+            <size>5120 5120 120.81</size>
+            <pos>0 0 0</pos>
+          </heightmap>
+        </geometry>
+        <material>
+          <script>
+            <uri>model://terminator/materials/scripts</uri>
+            <uri>model://terminator/materials/textures</uri>
+            <name>ow/terrain</name>
+          </script>
+        </material>
+        <plugin name="lod" filename="libHeightmapLODPlugin.so">
+          <lod>3</lod>
+          <skirt_length>0.1</skirt_length>
+        </plugin>
+        <!-- This will show shader changes in real-time. DO NOT check this into version control enabled. -->
+        <!--plugin name="reload_shaders" filename="libreload_shaders_plugin.so" /-->
+      </visual>
+    </link>
+  </model>
+</sdf>
