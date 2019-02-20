@@ -152,9 +152,9 @@ void lighting(vec3 wsVecToSun, vec3 wsVecToEye, vec3 wsNormal, out vec3 diffuse,
   diffuse += texture(irradianceMap, wsNormal_gazebo2ogre_and_mirrored).rgb;
 
   // irradiance specular (area light source simulation)
-  vec3 reflectvec_gazebo2ogre_and_mirrored = vec3(reflectvec.x, reflectvec.z, reflectvec.y);
+  //vec3 reflectvec_gazebo2ogre_and_mirrored = vec3(reflectvec.x, reflectvec.z, reflectvec.y);
   // TODO: Use a specular map and use textureLod() to correlate roughness with a specific mipmap level
-  specular += texture(irradianceMap, reflectvec_gazebo2ogre_and_mirrored).rgb;
+  //specular += texture(irradianceMap, reflectvec_gazebo2ogre_and_mirrored).rgb;
 }
 
 void main()
