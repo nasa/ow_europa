@@ -174,5 +174,9 @@ void main()
   vec3 specular = vec3(0, 0, 0);
   lighting(normalize(wsSunPosition.xyz), normalize(wsVecToEye), wsFinalNormal, diffuse, specular);
 
-  outputCol = vec4(diffuse, 1.0);
+  // Europa albedo from here https://www.space.com/15498-europa-sdcmp.html
+  // In the future we might want to apply this term partially or fully with texture maps.
+  diffuse *= 0.64;
+
+  outputCol = vec4(diffuse + specular, 1.0);
 }
