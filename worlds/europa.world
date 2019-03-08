@@ -41,7 +41,7 @@
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
-      <plugin name="near_far_clip" filename="libnear_far_clip_plugin.so" />
+      <plugin name="NearFarClip" filename="libIRGNearFarClipPlugin.so" />
     </gui>
 
   </world>

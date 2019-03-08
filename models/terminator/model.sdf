@@ -45,7 +45,7 @@
           <skirt_length>0.1</skirt_length>
         </plugin>
         <!-- This will show shader changes in real-time. DO NOT check this into version control enabled. -->
-        <!--plugin name="reload_shaders" filename="libreload_shaders_plugin.so" /-->
+        <!--plugin name="ReloadShaders" filename="libIRGReloadShadersPlugin.so" /-->
       </visual>
     </link>
   </model>
