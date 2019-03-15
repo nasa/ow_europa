@@ -34,7 +34,7 @@ in vec4 lsPos2;
 
 uniform samplerCube irradianceMap;
 uniform sampler2D normalMap;
-uniform sampler2D detailNormalMap;
+uniform sampler2D detailNormalHeightMap;
 //uniform float exposureMultiplier;
 //uniform float gammaCorrection;
 
@@ -124,7 +124,7 @@ float calcPSSMDepthShadowDebug(
   return shadow;
 }
 
-void lighting(vec3 wsVecToSun, vec3 wsVecToEye, vec3 wsNormal, out vec3 diffuse, out vec3 specular)
+void lighting(vec3 wsVecToSun, vec3 wsVecToEye, vec3 wsNormal, vec4 wsDetailNormalHeight, out vec3 diffuse, out vec3 specular)
 {
   // shadows
   float shadow = calcPSSMDepthShadow(shadowMap0, shadowMap1, shadowMap2,
@@ -132,24 +132,27 @@ void lighting(vec3 wsVecToSun, vec3 wsVecToEye, vec3 wsNormal, out vec3 diffuse,
                                      inverseShadowmapSize0, inverseShadowmapSize1, inverseShadowmapSize2,
                                      pssmSplitPoints, -vsPos.z);
 
+  // Only the highest parts of bumps should be lit when sun is at glancing angles
+  // This removes a great deal of impossible light in shaded areas and hides shadow artifacts.
+  float surfaceDot = dot(wsNormal, wsVecToSun);
+  float heightMultiplier = clamp((wsDetailNormalHeight.w * 5.0 + 5.0) - (10.0 - surfaceDot * 50.0), 0.0, 1.0);
+
   // directional light diffuse
-  float sundiff = max(dot(wsNormal, wsVecToSun), 0.0);
-  sundiff *= shadow;
-  diffuse += vec3(sundiff, sundiff, sundiff);
+  float sundiffuse = max(dot(wsDetailNormalHeight.xyz, wsVecToSun), 0.0);
+  diffuse += vec3(sundiffuse, sundiffuse, sundiffuse) * (heightMultiplier * shadow);
 
   // directional light specular
-  vec3 reflectvec = reflect(-wsVecToEye, wsNormal);
+  vec3 reflectvec = reflect(-wsVecToEye, wsDetailNormalHeight.xyz);
   float sunspec = pow(max(dot(wsVecToSun, reflectvec), 0.0), 100.0);
-  sunspec *= shadow;
-  specular += vec3(sunspec, sunspec, sunspec);
+  specular += vec3(sunspec, sunspec, sunspec) * (heightMultiplier * shadow);
 
   // irradiance diffuse (area light source simulation)
   // Gazebo is z-up but Ogre is y-up. Must rotate before cube texture lookup.
   // OpenGL cubemaps are arranged using RenderMan's left-handed coordinate system
   // resulting in the entire map being mirrored when rendered looking out from
   // the center, so we also negate y to correct our cube texture lookups.
-  vec3 wsNormal_gazebo2ogre_and_mirrored = vec3(wsNormal.x, wsNormal.z, wsNormal.y);
-  diffuse += texture(irradianceMap, wsNormal_gazebo2ogre_and_mirrored).rgb;
+  vec3 wsNormal_gazebo2ogre_and_mirrored = vec3(wsDetailNormalHeight.x, wsDetailNormalHeight.z, wsDetailNormalHeight.y);
+  diffuse += texture(irradianceMap, wsNormal_gazebo2ogre_and_mirrored).rgb * wsDetailNormalHeight.w;
 
   // irradiance specular (area light source simulation)
   //vec3 reflectvec_gazebo2ogre_and_mirrored = vec3(reflectvec.x, reflectvec.z, reflectvec.y);
@@ -166,17 +169,20 @@ void main()
   vec2 newUV = (uvTransform * vec4(wsHeightmapUV, 0.0f, 1.0f)).xy;
 
   vec3 normal = texture(normalMap, newUV).xyz * 2.0 - 1.0;
-  vec3 detailNormal1 = texture(detailNormalMap, wsPos.xy * 0.1).xyz * 2.0 - 1.0;
-  vec3 detailNormal2 = texture(detailNormalMap, wsPos.xy * 0.971).xyz * 2.0 - 1.0;
-  vec3 wsFinalNormal = blendNormals(normal, blendNormals(detailNormal1, detailNormal2, 1.0), 1.0);
+  vec4 detailNormalHeight1 = texture(detailNormalHeightMap, wsPos.xy * 0.1) * vec4(2.0, 2.0, 2.0, 1.0) - vec4(1.0, 1.0, 1.0, 0.0);
+  vec4 detailNormalHeight2 = texture(detailNormalHeightMap, wsPos.xy * 0.971) * vec4(2.0, 2.0, 2.0, 1.0) - vec4(1.0, 1.0, 1.0, 0.0);
+  vec3 wsFinalNormal = blendNormals(normal, blendNormals(detailNormalHeight1.xyz, detailNormalHeight2.xyz, 1.0), 1.0);
+  float finalHeight = detailNormalHeight1.a * 0.9 + detailNormalHeight2.a * 0.1;
 
   vec3 diffuse = vec3(0, 0, 0);
   vec3 specular = vec3(0, 0, 0);
-  lighting(normalize(wsSunPosition.xyz), normalize(wsVecToEye), wsFinalNormal, diffuse, specular);
+  lighting(normalize(wsSunPosition.xyz), normalize(wsVecToEye), normal, vec4(wsFinalNormal.xyz, finalHeight), diffuse, specular);
 
-  // Europa albedo from here https://www.space.com/15498-europa-sdcmp.html
+  // Europa albedo from here https://www.space.com/15498-europa-sdcmp.html is 0.64
   // In the future we might want to apply this term partially or fully with texture maps.
-  diffuse *= 0.64;
+  diffuse *= vec3(0.6, 0.6, 0.68);
+  // specular is currently just a guess
+  specular *= 0.2;
 
   outputCol = vec4(diffuse + specular, 1.0);
 }

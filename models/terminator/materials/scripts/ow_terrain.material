@@ -37,9 +37,9 @@ fragment_program ow_terrain_frag glsl
     //param_named pssmSplitPoints float4 16.7777 35.6558 100 0
 
     // texture references
-    param_named irradianceMap    int 3
-    param_named normalMap        int 4
-    param_named detailNormalMap  int 5
+    param_named irradianceMap           int 3
+    param_named normalMap               int 4
+    param_named detailNormalHeightMap   int 5
   }
 }
 
@@ -73,16 +73,16 @@ material ow/terrain
 
       texture_unit {
         texture terminator-normals.tif 2d
-        filtering anisotropic anisotropic linear 
+        filtering anisotropic anisotropic linear
         max_anisotropy 16
-        tex_address_mode wrap 
+        tex_address_mode wrap
       }
 
       texture_unit {
-        texture ice-normals.png 2d
-        filtering anisotropic anisotropic linear 
+        texture ice-normals-heights.png 2d
+        filtering anisotropic anisotropic linear
         max_anisotropy 16
-        tex_address_mode wrap 
+        tex_address_mode wrap
       }
     }
   }
