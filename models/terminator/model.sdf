@@ -15,6 +15,9 @@
           </heightmap>
         </geometry>
         <surface>
+          <contact>
+            <collide_bitmask>0x0001</collide_bitmask>
+          </contact>
           <friction>
             <ode>
               <mu>0.8</mu>
