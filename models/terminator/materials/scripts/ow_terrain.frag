@@ -162,15 +162,10 @@ void spotlight(in vec3 vsVecToLight,
   // to avoid artifacts to the side of the light
   float rho = dot(vsNegLightDirNorm, vsVecToLightNorm);
   float spotT = clamp((rho - spotParams.y) / (spotParams.x - spotParams.y), 0.0, 1.0);
-  // We don't need a falloff exponent for this simulation
+  // We don't need a falloff exponent to soften the spot edge because we are projecting a texture
   //spotT = pow(spotT, spotParams.z);
 
   vec3 texColor = textureProj(spotlightMap, texCoord).rgb;
-
-  //lights[index].vsVecToLight = vsVecToLightNorm;
-  // Attenuation and spot cone get baked into final light color. This is how
-  // spotlights get generalized so they can be stored in lights array.
-  //lights[index].color = max(texColor * color * atten * spotT, vec3(0.0, 0.0, 0.0));
 
   vec3 finalColor = max(texColor * color * atten * spotT, vec3(0.0, 0.0, 0.0));
   diffuse += max(dot(vsVecToLightNorm, vsNormal), 0.0) * finalColor;
