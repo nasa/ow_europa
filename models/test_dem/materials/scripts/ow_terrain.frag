@@ -35,8 +35,10 @@ in vec4 lsPos2;
 uniform samplerCube irradianceMap;
 uniform sampler2D normalMap;
 uniform sampler2D detailNormalHeightMap;
-//uniform float exposureMultiplier;
-//uniform float gammaCorrection;
+
+// camera parameters
+uniform float exposureMultiplier;
+uniform float gammaCorrection;
 
 // output
 out vec4 outputCol;
@@ -184,5 +186,6 @@ void main()
   // specular is currently just a guess
   specular *= 0.2;
 
-  outputCol = vec4(diffuse + specular, 1.0);
+  vec3 exposedColor = clamp((diffuse + specular) * exposureMultiplier, 0.0, 1.0);
+  outputCol = vec4(pow(exposedColor, vec3(gammaCorrection)), 1.0);
 }

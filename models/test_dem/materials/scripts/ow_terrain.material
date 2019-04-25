@@ -40,6 +40,11 @@ fragment_program ow_terrain_frag glsl
     param_named irradianceMap           int 3
     param_named normalMap               int 4
     param_named detailNormalHeightMap   int 5
+
+    // multiplier on output color to simulate exposure time
+    param_named exposureMultiplier float 1.0
+    // apply a gamma curve to make images easier for humans to view
+    param_named gammaCorrection    float 1.0
   }
 }
 
