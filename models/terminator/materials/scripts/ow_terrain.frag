@@ -146,6 +146,7 @@ void spotlight(in vec3 vsVecToLight,
                //in int index,
                in vec3 vsVecToEye,
                in vec3 vsNormal,
+               in float specularPower,
                inout vec3 diffuse,
                inout vec3 specular)
 {
@@ -170,12 +171,14 @@ void spotlight(in vec3 vsVecToLight,
   vec3 finalColor = max(texColor * color * atten * spotT, vec3(0.0, 0.0, 0.0));
   diffuse += max(dot(vsVecToLightNorm, vsNormal), 0.0) * finalColor;
   vec3 reflectvec = reflect(-vsVecToEye, vsNormal);
-  float spotspec = pow(max(dot(vsVecToLightNorm, reflectvec), 0.0), 100.0);
+  float spotspec = pow(max(dot(vsVecToLightNorm, reflectvec), 0.0), specularPower);
   specular += vec3(spotspec, spotspec, spotspec) * finalColor;
 }
 
 void lighting(vec3 wsVecToSun, vec3 wsVecToEye, vec3 wsNormal, vec4 wsDetailNormalHeight, out vec3 diffuse, out vec3 specular)
 {
+  const float specular_power = 100.0;
+
   // shadows
   float shadow = calcPSSMDepthShadow(shadowMap0, shadowMap1, shadowMap2,
                                      lsPos0, lsPos1, lsPos2,
@@ -193,7 +196,7 @@ void lighting(vec3 wsVecToSun, vec3 wsVecToEye, vec3 wsNormal, vec4 wsDetailNorm
 
   // directional light specular
   vec3 reflectvec = reflect(-wsVecToEye, wsDetailNormalHeight.xyz);
-  float sunspec = pow(max(dot(wsVecToSun, reflectvec), 0.0), 100.0);
+  float sunspec = pow(max(dot(wsVecToSun, reflectvec), 0.0), specular_power);
   specular += vec3(sunspec, sunspec, sunspec) * (heightMultiplier * shadow);
 
   // irradiance diffuse (area light source simulation)
@@ -219,10 +222,10 @@ void lighting(vec3 wsVecToSun, vec3 wsVecToEye, vec3 wsNormal, vec4 wsDetailNorm
   vec3 vsDetailNormal = normalMatrix * wsDetailNormalHeight.xyz;
   spotlight(vsSpotlightPos0.xyz - vsPos, -vsSpotlightDir0.xyz, spotlightAtten0,
             spotlightParams0.xyz, spotlightColor0.rgb, spotlightTexCoord0,
-            vsVecToEye, vsDetailNormal, diffuse, specular);
+            vsVecToEye, vsDetailNormal, specular_power, diffuse, specular);
   spotlight(vsSpotlightPos1.xyz - vsPos, -vsSpotlightDir1.xyz, spotlightAtten0,
             spotlightParams0.xyz, spotlightColor0.rgb, spotlightTexCoord1,
-            vsVecToEye, vsDetailNormal, diffuse, specular);
+            vsVecToEye, vsDetailNormal, specular_power, diffuse, specular);
 }
 
 void main()
