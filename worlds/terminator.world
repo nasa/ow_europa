@@ -35,6 +35,24 @@
       <sim_time>1631761200 0</sim_time> <!-- epoch: 2021-09-16T03:00:00 https://www.epochconverter.com -->
     </state>
 
+    <!-- Apply camera sim plugin to GUI camera -->
+    <model name="gui_camera_sim">
+      <static>true</static>
+      <link name="link">
+        <visual name="visual">
+          <geometry>
+            <empty/>
+          </geometry>
+          <plugin name="CameraSim" filename="libIRGCameraSimVisualPlugin.so" >
+            <topic_uid>gui</topic_uid>
+            <gamma>1.0</gamma>
+            <read_noise>0.0</read_noise>
+            <shot_noise>0.0</shot_noise>
+          </plugin>
+        </visual>
+      </link>
+    </model>
+
     <gui fullscreen='0'>
       <camera name='user_camera'>
         <pose frame=''>3.0 -17.5 11.0   0 0.443999 1.65199</pose>
