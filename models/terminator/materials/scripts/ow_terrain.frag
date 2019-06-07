@@ -254,6 +254,6 @@ void main()
   // specular is currently just a guess
   specular *= 0.2;
 
-  vec3 exposedColor = clamp((diffuse + specular) * exposureMultiplier, 0.0, 1.0);
+  vec3 exposedColor = (diffuse + specular) * vec3(exposureMultiplier);
   outputCol = vec4(pow(exposedColor, vec3(gammaCorrection)), 1.0);
 }

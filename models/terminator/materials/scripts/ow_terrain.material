@@ -16,8 +16,7 @@ vertex_program ow_terrain_vert glsl
     param_named_auto texViewProjMatrix1 texture_viewproj_matrix 1
     param_named_auto texViewProjMatrix2 texture_viewproj_matrix 2
 
-    param_named_auto wsSunPosition light_position 0
-
+    // lander lights
     param_named_auto wsSpotlightPos0    light_position 1
     param_named_auto wsSpotlightPos1    light_position 2
     param_named_auto wsSpotlightDir0    light_direction 1
@@ -34,6 +33,8 @@ fragment_program ow_terrain_frag glsl
 
   default_params
   {
+    param_named_auto wsSunPosition light_position 0
+
     // shadow mapping (PSSM)
     param_named shadowMap0       int 0
     param_named shadowMap1       int 1

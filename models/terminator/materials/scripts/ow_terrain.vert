@@ -18,8 +18,6 @@ uniform mat4 inverseViewMatrix;
 uniform mat4 inverseTransposeWorldMatrix;
 uniform mat4 inverseTransposeWorldViewMatrix;
 
-// sun
-uniform vec4 wsSunPosition;
 // spotlights
 uniform vec4 wsSpotlightPos0;
 uniform vec4 wsSpotlightPos1;
