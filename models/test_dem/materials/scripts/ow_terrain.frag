@@ -19,6 +19,7 @@ in mat3 normalMatrix;
 uniform mat4 uvTransform;
 
 uniform vec4 wsSunPosition;
+uniform vec3 sunIntensity;  // lux (visual spectrum) or watts per square meter (some other spectrum)
 
 // Shadow parameters
 uniform vec4 pssmSplitPoints;
@@ -170,11 +171,11 @@ void spotlight(in vec3 vsVecToLight,
 
   vec3 texColor = textureProj(spotlightMap, texCoord).rgb;
 
-  vec3 finalColor = max(texColor * color * atten * spotT, vec3(0.0, 0.0, 0.0));
+  vec3 finalColor = max(texColor * color * atten * spotT, vec3(0.0));
   diffuse += max(dot(vsVecToLightNorm, vsNormal), 0.0) * finalColor;
   vec3 reflectvec = reflect(-vsVecToEye, vsNormal);
   float spotspec = pow(max(dot(vsVecToLightNorm, reflectvec), 0.0), specularPower);
-  specular += vec3(spotspec, spotspec, spotspec) * finalColor;
+  specular += vec3(spotspec) * finalColor;
 }
 
 void lighting(vec3 wsVecToSun, vec3 wsVecToEye, vec3 wsNormal, vec4 wsDetailNormalHeight, out vec3 diffuse, out vec3 specular)
@@ -194,12 +195,12 @@ void lighting(vec3 wsVecToSun, vec3 wsVecToEye, vec3 wsNormal, vec4 wsDetailNorm
 
   // directional light diffuse
   float sundiffuse = max(dot(wsDetailNormalHeight.xyz, wsVecToSun), 0.0);
-  diffuse += vec3(sundiffuse, sundiffuse, sundiffuse) * (heightMultiplier * shadow);
+  diffuse += sunIntensity * (sundiffuse * heightMultiplier * shadow);
 
   // directional light specular
   vec3 reflectvec = reflect(-wsVecToEye, wsDetailNormalHeight.xyz);
   float sunspec = pow(max(dot(wsVecToSun, reflectvec), 0.0), specular_power);
-  specular += vec3(sunspec, sunspec, sunspec) * (heightMultiplier * shadow);
+  specular += sunIntensity * (sunspec * heightMultiplier * shadow);
 
   // irradiance diffuse (area light source simulation)
   // Gazebo is z-up but Ogre is y-up. Must rotate before cube texture lookup.
@@ -244,8 +245,8 @@ void main()
   vec3 wsFinalNormal = blendNormals(normal, blendNormals(detailNormalHeight1.xyz, detailNormalHeight2.xyz, 1.0), 1.0);
   float finalHeight = detailNormalHeight1.a * 0.9 + detailNormalHeight2.a * 0.1;
 
-  vec3 diffuse = vec3(0, 0, 0);
-  vec3 specular = vec3(0, 0, 0);
+  vec3 diffuse = vec3(0);
+  vec3 specular = vec3(0);
   lighting(normalize(wsSunPosition.xyz), normalize(wsVecToEye), normal, vec4(wsFinalNormal.xyz, finalHeight), diffuse, specular);
 
   // Europa albedo from here https://www.space.com/15498-europa-sdcmp.html is 0.64
