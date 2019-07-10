@@ -34,6 +34,7 @@ fragment_program ow_terrain_frag glsl
   default_params
   {
     param_named_auto wsSunPosition      light_position 0
+    // Sun lux at Jupiter
     param_named sunIntensity            float3 4438.0 4438.0 4438.0
 
     // shadow mapping (PSSM)
