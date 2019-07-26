@@ -48,10 +48,6 @@ uniform sampler2D normalMap;
 uniform sampler2D detailNormalHeightMap;
 uniform sampler2D spotlightMap;
 
-// camera parameters
-uniform float exposureMultiplier;
-uniform float gammaCorrection;
-
 // output
 out vec4 outputCol;
 
@@ -171,11 +167,11 @@ void spotlight(in vec3 vsVecToLight,
 
   vec3 texColor = textureProj(spotlightMap, texCoord).rgb;
 
-  vec3 finalColor = max(texColor * color * atten * spotT, vec3(0.0));
+  vec3 finalColor = max(texColor * color * (atten * spotT), vec3(0.0));
   diffuse += max(dot(vsVecToLightNorm, vsNormal), 0.0) * finalColor;
   vec3 reflectvec = reflect(-vsVecToEye, vsNormal);
   float spotspec = pow(max(dot(vsVecToLightNorm, reflectvec), 0.0), specularPower);
-  specular += vec3(spotspec) * finalColor;
+  specular += finalColor * spotspec;
 }
 
 void lighting(vec3 wsVecToSun, vec3 wsVecToEye, vec3 wsNormal, vec4 wsDetailNormalHeight, out vec3 diffuse, out vec3 specular)
@@ -233,10 +229,6 @@ void lighting(vec3 wsVecToSun, vec3 wsVecToEye, vec3 wsNormal, vec4 wsDetailNorm
 
 void main()
 {
-  //vec3 wsNormalNormalized = normalize(wsNormal);
-  //vec3 vsNormalNormalized = normalize(vsNormal);
-  //vec3 vsVecToEye = normalize(-vsPos);
-
   vec2 newUV = (uvTransform * vec4(wsHeightmapUV, 0.0f, 1.0f)).xy;
 
   vec3 normal = texture(normalMap, newUV).xyz * 2.0 - 1.0;
@@ -255,6 +247,5 @@ void main()
   // specular is currently just a guess
   specular *= 0.2;
 
-  vec3 exposedColor = (diffuse + specular) * vec3(exposureMultiplier);
-  outputCol = vec4(pow(exposedColor, vec3(gammaCorrection)), 1.0);
+  outputCol = vec4(diffuse + specular, 1.0);
 }
