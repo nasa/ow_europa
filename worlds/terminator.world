@@ -25,7 +25,7 @@
     <!-- Use light irradiance map plugin to generate irradiance environment map -->
     <include>
       <uri>model://ow_light_probe</uri>
-      <pose> 0 0 0 0 0 0</pose>
+      <pose> 0 0 -5.5 0 0 0</pose>
     </include>
 
     <include>
