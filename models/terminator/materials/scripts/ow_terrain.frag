@@ -48,6 +48,7 @@ in vec4 spotlightTexCoord1;
 uniform samplerCube irradianceMap;
 uniform sampler2D normalMap;
 uniform sampler2D detailNormalHeightMap;
+uniform sampler2D scoopTracksHeightMap;
 uniform sampler2D spotlightMap;
 
 // output
@@ -236,6 +237,11 @@ void main()
   vec3 normal = texture(normalMap, newUV).xyz * 2.0 - 1.0;
   vec4 detailNormalHeight1 = texture(detailNormalHeightMap, wsPos.xy * 0.1) * vec4(2.0, 2.0, 2.0, 1.0) - vec4(1.0, 1.0, 1.0, 0.0);
   vec4 detailNormalHeight2 = texture(detailNormalHeightMap, wsPos.xy * 0.971) * vec4(2.0, 2.0, 2.0, 1.0) - vec4(1.0, 1.0, 1.0, 0.0);
+  
+  //****
+  float trackMix = texture2D(scoopTracksHeightMap, newUV).r;
+  //****
+  
   vec3 wsFinalNormal = blendNormals(normal, blendNormals(detailNormalHeight1.xyz, detailNormalHeight2.xyz, 1.0), 1.0);
   float finalHeight = detailNormalHeight1.a * 0.9 + detailNormalHeight2.a * 0.1;
 
@@ -248,6 +254,10 @@ void main()
   diffuse *= vec3(0.6, 0.6, 0.68);
   // specular is currently just a guess
   specular *= 0.2;
+  
+  //****
+  diffuse *= trackMix;
+  //****
 
   outputCol = vec4(diffuse + specular, 1.0);
 }
