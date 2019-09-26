@@ -58,10 +58,10 @@
           <texture_name>linkTracks</texture_name>
           <link_name_0>lander::l_scoop</link_name_0>
           <draw_enabled>true</draw_enabled>
-          <min_dist_thresh>0.01</min_dist_thresh>
+          <min_dist_thresh>0.008</min_dist_thresh>
           <track_width>10.0</track_width>
-          <track_depth>1.0</track_depth>
-          <track_exponent>2.0</track_exponent>
+          <track_depth>0.9</track_depth>
+          <track_exponent>4.0</track_exponent>
         </plugin>
         <!-- This will show shader changes in real-time. DO NOT check this into version control enabled. -->
         <!--plugin name="ReloadShaders" filename="libIRGReloadShadersPlugin.so" /-->
