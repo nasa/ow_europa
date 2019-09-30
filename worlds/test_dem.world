@@ -2,6 +2,10 @@
 <sdf version='1.4'>
   <world name='default'>
 
+    <state world_name='default'>
+      <sim_time>1916524800 0</sim_time> <!-- epoch: 2030-09-25T00:00:00 https://www.epochconverter.com -->
+    </state>
+
     <scene>
       <ambient>0.0 0.0 0.0 1</ambient>
       <!-- background>0.2 0.2 0.5 1</background -->
@@ -31,10 +35,6 @@
     <include>
       <uri>model://test_dem</uri>
     </include>
-
-    <state world_name='default'>
-      <sim_time>1631761200 0</sim_time> <!-- epoch: 2021-09-16T03:00:00 https://www.epochconverter.com -->
-    </state>
 
     <!-- Apply camera sim plugin to GUI camera -->
     <model name="gui_camera_sim">
