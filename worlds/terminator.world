@@ -52,6 +52,7 @@
             <read_noise>0.0</read_noise>
             <shot_noise>0.0</shot_noise>
           </plugin>
+          <plugin name="GlobalShaderParam" filename="libIRGGlobalShaderParamPlugin.so" />
         </visual>
       </link>
     </model>
