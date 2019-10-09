@@ -55,7 +55,7 @@
           <shadow_split_lambda>0.97</shadow_split_lambda>
           <shadow_split_padding>2</shadow_split_padding>
         </plugin>
-        <plugin name="link_tracks" filename="liblink_tracks_plugin.so">
+        <plugin name="link_tracks" filename="libIRGLinkTracksPlugin.so">
           <texture_name>linkTracks</texture_name>
           <link_name_0>lander::l_scoop</link_name_0>
           <draw_enabled>true</draw_enabled>
