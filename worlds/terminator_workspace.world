@@ -28,8 +28,8 @@
       <gravity>0 0 -1.315</gravity>
     </physics>
 
-    <include> <uri>model://ow_sun</uri> </include>
-    <include> <uri>model://ow_jupiter</uri> </include>
+    <include> <uri>model://irg_sun</uri> </include>
+    <include> <uri>model://irg_jupiter</uri> </include>
 
     <!-- Use light irradiance map plugin to generate irradiance environment map -->
     <include>
