@@ -1,0 +1,72 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+
+  <model name="heightmap">
+    <pose>0 0 0  0 0 0</pose>
+    <static>true</static>
+    <link name="link">
+      <collision name="collision">
+        <geometry>
+          <heightmap>
+            <uri>model://terminator_workspace/dem/terminator_workspace.tif</uri>
+            <sampling>1</sampling>
+            <size>10 10 1.147</size>
+            <pos>0 0 0</pos>
+          </heightmap>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>0x0001</collide_bitmask>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.8</mu>
+              <mu2>0.8</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name="visual">
+        <cast_shadows>true</cast_shadows>
+        <geometry>
+          <heightmap>
+            <uri>model://terminator_workspace/dem/terminator_workspace.tif</uri>
+            <sampling>1</sampling>
+            <size>10 10 1.147</size>
+            <pos>0 0 0</pos>
+          </heightmap>
+        </geometry>
+        <material>
+          <script>
+            <uri>model://terminator_workspace/materials/scripts</uri>
+            <uri>model://terminator_workspace/materials/textures</uri>
+            <uri>model://terminator/materials/textures</uri>
+            <name>ow/terrain</name>
+          </script>
+        </material>
+        <plugin name="lod" filename="libHeightmapLODPlugin.so">
+          <lod>3</lod>
+          <skirt_length>0.1</skirt_length>
+        </plugin>
+        <plugin name="shadow_params" filename="libIRGShadowParametersVisualPlugin.so">
+          <shadow_texture_size>4096</shadow_texture_size>
+          <shadow_near>0.1</shadow_near>
+          <shadow_far>500</shadow_far>
+          <shadow_split_lambda>0.97</shadow_split_lambda>
+          <shadow_split_padding>2</shadow_split_padding>
+        </plugin>
+        <plugin name="link_tracks" filename="libIRGLinkTracksPlugin.so">
+          <texture_name>linkTracks</texture_name>
+          <link_name_0>lander::l_scoop</link_name_0>
+          <draw_enabled>true</draw_enabled>
+          <min_dist_thresh>0.008</min_dist_thresh>
+          <track_width>10.0</track_width>
+          <track_depth>0.9</track_depth>
+          <track_exponent>4.0</track_exponent>
+        </plugin>
+        <!-- This will show shader changes in real-time. DO NOT check this into version control enabled. -->
+        <!--plugin name="ReloadShaders" filename="libIRGReloadShadersPlugin.so" /-->
+      </visual>
+    </link>
+  </model>
+</sdf>
