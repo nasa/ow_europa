@@ -18,12 +18,11 @@
     <physics type='ode'>
       <ode>
         <solver>
-          <type>quick</type>
-          <iters>50</iters>
+          <type>world</type>
         </solver>
       </ode>
-      <max_step_size>0.0025</max_step_size>
-      <real_time_update_rate>400</real_time_update_rate>
+      <max_step_size>0.01</max_step_size>
+      <real_time_update_rate>100</real_time_update_rate>
       <!-- gravity on Europa -->
       <gravity>0 0 -1.315</gravity>
     </physics>
