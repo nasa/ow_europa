@@ -177,7 +177,7 @@ void spotlight(in vec3 vsVecToLight,
   specular += finalColor * spotspec;
 }
 
-// wsDirToSun and wsDirToEye must be normalized
+// wsDirToSun, wsDirToEye, wsNormal, and wsDetailNormalHeight.xyz must be normalized
 void lighting(vec3 wsDirToSun, vec3 wsDirToEye, vec3 wsNormal, vec4 wsDetailNormalHeight, out vec3 diffuse, out vec3 specular)
 {
   const float specular_power = 100.0;
@@ -223,8 +223,8 @@ void lighting(vec3 wsDirToSun, vec3 wsDirToEye, vec3 wsNormal, vec4 wsDetailNorm
   // but it seems premature to make this consistent before implementing multiple
   // materials and lighting that is more advanced than the Lambertian diffuse +
   // Phong specular model we are currently using.
-  vec3 vsDirToEye = normalMatrix * wsDirToEye;
-  vec3 vsDetailNormal = normalMatrix * wsDetailNormalHeight.xyz;
+  vec3 vsDirToEye = normalize(normalMatrix * wsDirToEye);
+  vec3 vsDetailNormal = normalize(normalMatrix * wsDetailNormalHeight.xyz);
   spotlight(vsSpotlightPos0.xyz - vsPos, -vsSpotlightDir0.xyz, spotlightAtten0,
             spotlightParams0.xyz, spotlightColor0.rgb, spotlightTexCoord0,
             vsDirToEye, vsDetailNormal, specular_power, diffuse, specular);
