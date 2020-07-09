@@ -44,10 +44,11 @@
             <name>ow/terrain</name>
           </script>
         </material>
-        <plugin name="lod" filename="libHeightmapLODPlugin.so">
+        <plugin name="ow_dynamic_terrain_visual" filename="libow_dynamic_terrain_visual.so" />
+        <!--<plugin name="lod" filename="libHeightmapLODPlugin.so">
           <lod>3</lod>
           <skirt_length>0.1</skirt_length>
-        </plugin>
+        </plugin>-->
         <plugin name="shadow_params" filename="libIRGShadowParametersVisualPlugin.so">
           <shadow_texture_size>4096</shadow_texture_size>
           <shadow_near>0.1</shadow_near>
@@ -55,20 +56,10 @@
           <shadow_split_lambda>0.97</shadow_split_lambda>
           <shadow_split_padding>2</shadow_split_padding>
         </plugin>
-        <plugin name="link_tracks" filename="libIRGLinkTracksPlugin.so">
-          <texture_name>linkTracks</texture_name>
-          <link_name_0>lander::l_scoop_tip</link_name_0>
-          <draw_enabled>true</draw_enabled>
-          <min_dist_thresh>0.008</min_dist_thresh>
-          <track_width>10.0</track_width>
-          <track_depth>0.9</track_depth>
-          <track_exponent>4.0</track_exponent>
-          <altitude_tracking_enabled>true</altitude_tracking_enabled>
-          <altitude_threshold>0.00</altitude_threshold>
-        </plugin>
         <!-- This will show shader changes in real-time. DO NOT check this into version control enabled. -->
         <!--plugin name="ReloadShaders" filename="libIRGReloadShadersPlugin.so" /-->
       </visual>
     </link>
+    <plugin name="ow_dynamic_terrain_model" filename="libow_dynamic_terrain_model.so" />
   </model>
 </sdf>
