@@ -12,7 +12,7 @@
           <heightmap>
             <uri>model://atacama_z1/dem/DEM_0.0024m_res.tiff</uri>
             <sampling>1</sampling>
-            <size>10 10 1.0</size>
+            <size>5 5 1.0</size>
             <pos>0 0 -932.284</pos>
           </heightmap>
         </geometry>
@@ -39,12 +39,12 @@
           <heightmap>
             <uri>model://atacama_z1/dem/DEM_0.0024m_res.tiff</uri>
             <sampling>1</sampling>
-            <size>10 10 1.0</size>
+            <size>5 5 1.0</size>
             <pos>0 0 -932.284</pos>
             <texture>
               <diffuse>file://models/atacama_z1/materials/textures/RGB_0.0024m_res.png</diffuse>
               <normal>file://models/atacama_z1/materials/textures/RGB_0.DEM_0.0024m_res-normals.tiff</normal>
-              <size>10</size>
+              <size>5</size>
             </texture>
           </heightmap>
         </geometry>
