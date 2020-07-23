@@ -29,11 +29,6 @@
         </surface>
       </collision>
       <visual name="terrain-visual">
-        <!--<plugin name="ow_dynamic_terrain_visual" filename="libow_dynamic_terrain_visual.so" />-->
-        <plugin name="lod" filename="libHeightmapLODPlugin.so">
-          <lod>1</lod>
-          <skirt_length>0.1</skirt_length>
-        </plugin>
         <cast_shadows>true</cast_shadows>
         <geometry>
           <heightmap>
