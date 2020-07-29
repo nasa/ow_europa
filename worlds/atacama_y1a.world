@@ -7,7 +7,7 @@
     </state>
 
     <scene>
-      <ambient>0.0 0.0 0.0 1</ambient>
+      <ambient>0.2 0.2 0.2 1</ambient>
       <background>0.0 0.0 0.0 1</background>
       <shadows>0</shadows>
       <grid>false</grid>
@@ -26,13 +26,24 @@
       <gravity>0 0 -1.315</gravity>
     </physics>
 
-    <include>
+    <light type="directional" name="my_light">
+      <pose>0 0 30 0 0 0</pose>
+      <diffuse>.9 .9 .9 1</diffuse>
+      <specular>.1 .1 .1 1</specular>
+      <attenuation>
+        <range>20</range>
+      </attenuation>
+      <direction>0 -2 -1</direction>
+      <cast_shadows>true</cast_shadows>
+    </light>
+
+    <!-- <include>
       <uri>model://irg_sun</uri>
     </include>
 
     <include>
       <uri>model://irg_jupiter</uri>
-    </include>
+    </include> -->
 
     <!-- Use light irradiance map plugin to generate irradiance environment map -->
     <include>
@@ -41,7 +52,7 @@
     </include>
 
     <include>
-      <uri>model://atacama_z1</uri>
+      <uri>model://atacama_y1a</uri>
     </include>
 
     <!-- Apply camera sim plugin to GUI camera -->
@@ -61,7 +72,7 @@
             <read_noise>0.0</read_noise>
             <shot_noise>0.0</shot_noise>
           </plugin>-->
-          <plugin name="GlobalShaderParam" filename="libIRGGlobalShaderParamPlugin.so" />
+          <!-- <plugin name="GlobalShaderParam" filename="libIRGGlobalShaderParamPlugin.so" /> -->
         </visual>
       </link>
     </model>
@@ -72,7 +83,7 @@
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
-      <plugin name="NearFarClip" filename="libIRGNearFarClipPlugin.so" />
+      <!-- <plugin name="NearFarClip" filename="libIRGNearFarClipPlugin.so" /> -->
     </gui>
 
   </world>
