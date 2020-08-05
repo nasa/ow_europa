@@ -10,7 +10,7 @@
       <collision name="collision">
         <geometry>
           <heightmap>
-            <uri>model://atacama_y1a/dem/atacama_y1a_0.0024m.tiff</uri>
+            <uri>model://atacama_y1a/dem/atacama_y1a_0.0048m.tiff</uri>
             <sampling>1</sampling>
             <size>5 5 0.367</size>
             <pos>0 0 -932.284</pos>
@@ -32,13 +32,13 @@
         <cast_shadows>true</cast_shadows>
         <geometry>
           <heightmap>
-            <uri>model://atacama_y1a/dem/atacama_y1a_0.0024m.tiff</uri>
+            <uri>model://atacama_y1a/dem/atacama_y1a_0.0048m.tiff</uri>
             <sampling>1</sampling>
             <size>5 5 0.367</size>
             <pos>0 0 -932.284</pos>
             <texture>
-              <diffuse>file://atacama_y1a/materials/textures/atacama_y1a_0.0024m.png</diffuse>
-              <normal>file://atacama_y1a/materials/textures/atacama_y1a_0.0024m-normalmap.png</normal>
+              <diffuse>file://atacama_y1a/materials/textures/atacama_y1a_0.0048m.png</diffuse>
+              <normal>file://atacama_y1a/materials/textures/atacama_y1a_0.0048m-normalmap.tiff</normal>
               <size>5</size>
             </texture>
           </heightmap>
