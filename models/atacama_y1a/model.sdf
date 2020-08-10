@@ -37,8 +37,8 @@
             <size>5 5 0.367</size>
             <pos>0 0 -932.284</pos>
             <texture>
-              <diffuse>file://atacama_y1a/materials/textures/atacama_y1a_0.0048m.png</diffuse>
-              <normal>file://atacama_y1a/materials/textures/atacama_y1a_0.0048m-normalmap.tiff</normal>
+              <diffuse>file://atacama_y1a/materials/textures/atacama_y1a_0.0024m.png</diffuse>
+              <normal>file://atacama_y1a/materials/textures/atacama_y1a_0.0024m-normalmap.png</normal>
               <size>5</size>
             </texture>
           </heightmap>
