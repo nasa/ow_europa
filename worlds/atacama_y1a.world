@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<sdf version='1.4'>
+  <world name='default'>
+
+    <state world_name='default'>
+      <sim_time>1916524800 0</sim_time>      <!-- epoch: 2030-09-25T00:00:00 https://www.epochconverter.com -->
+    </state>
+
+    <scene>
+      <ambient>0.2 0.2 0.2 1</ambient>
+      <background>0.0 0.0 0.0 1</background>
+      <shadows>0</shadows>
+      <grid>false</grid>
+      <origin_visual>false</origin_visual>
+    </scene>
+
+    <physics type='ode'>
+      <ode>
+        <solver>
+          <type>world</type>
+        </solver>
+      </ode>
+      <max_step_size>0.0025</max_step_size>
+      <real_time_update_rate>400</real_time_update_rate>
+      <!-- gravity on Europa -->
+      <gravity>0 0 -1.315</gravity>
+    </physics>
+
+    <light type="directional" name="my_light">
+      <pose>0 0 30 0 0 0</pose>
+      <diffuse>.9 .9 .9 1</diffuse>
+      <specular>.1 .1 .1 1</specular>
+      <attenuation>
+        <range>20</range>
+      </attenuation>
+      <direction>0 -2 -1</direction>
+      <cast_shadows>true</cast_shadows>
+    </light>
+
+    <!-- <include>
+      <uri>model://irg_sun</uri>
+    </include>
+
+    <include>
+      <uri>model://irg_jupiter</uri>
+    </include> -->
+
+    <!-- Use light irradiance map plugin to generate irradiance environment map -->
+    <include>
+      <uri>model://ow_light_probe</uri>
+      <pose> 0 0 2 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://atacama_y1a</uri>
+    </include>
+
+    <!-- Apply camera sim plugin to GUI camera -->
+
+    <model name="gui_camera_sim">
+      <static>true</static>
+      <link name="link">
+        <visual name="visual">
+          <geometry>
+            <empty/>
+          </geometry>
+          <!--<plugin name="CameraSim" filename="libIRGCameraSimVisualPlugin.so">
+            <topic_uid>gui</topic_uid>
+            <exposure>0.02</exposure>
+            <gamma>1.0</gamma>
+            <energy_conversion>0.01625</energy_conversion>
+            <read_noise>0.0</read_noise>
+            <shot_noise>0.0</shot_noise>
+          </plugin>-->
+          <!-- <plugin name="GlobalShaderParam" filename="libIRGGlobalShaderParamPlugin.so" /> -->
+        </visual>
+      </link>
+    </model>
+
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose frame=''>3.0 -17.5 11.0   0 0.443999 1.65199</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+      <!-- <plugin name="NearFarClip" filename="libIRGNearFarClipPlugin.so" /> -->
+    </gui>
+
+  </world>
+</sdf>

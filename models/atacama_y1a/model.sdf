@@ -1,0 +1,61 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+
+  <model name="heightmap">
+
+    <plugin name="ow_dynamic_terrain_model" filename="libow_dynamic_terrain_model.so"/>
+    <pose>0 0 0  0 0 0</pose>
+    <static>true</static>
+    <link name="terrain-link">
+      <collision name="collision">
+        <geometry>
+          <heightmap>
+            <uri>model://atacama_y1a/dem/atacama_y1a_0.0048m.tiff</uri>
+            <sampling>1</sampling>
+            <size>5 5 0.367</size>
+            <pos>0 0 -932.284</pos>
+          </heightmap>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>0x0001</collide_bitmask>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.8</mu>
+              <mu2>0.8</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name="terrain-visual">
+        <cast_shadows>true</cast_shadows>
+        <geometry>
+          <heightmap>
+            <uri>model://atacama_y1a/dem/atacama_y1a_0.0048m.tiff</uri>
+            <sampling>1</sampling>
+            <size>5 5 0.367</size>
+            <pos>0 0 -932.284</pos>
+            <texture>
+              <diffuse>file://atacama_y1a/materials/textures/atacama_y1a_0.0024m.png</diffuse>
+              <normal>file://atacama_y1a/materials/textures/atacama_y1a_0.0024m-normalmap.png</normal>
+              <size>5</size>
+            </texture>
+          </heightmap>
+        </geometry>
+        <plugin name="ow_dynamic_terrain_visual" filename="libow_dynamic_terrain_visual.so" />
+        <plugin name="lod" filename="libHeightmapLODPlugin.so">
+          <lod>0</lod>
+          <skirt_length>0.0</skirt_length>
+        </plugin>
+        <!-- <plugin name="shadow_params" filename="libIRGShadowParametersVisualPlugin.so">
+          <shadow_texture_size>4096</shadow_texture_size>
+          <shadow_near>0.1</shadow_near>
+          <shadow_far>500</shadow_far>
+          <shadow_split_lambda>0.97</shadow_split_lambda>
+          <shadow_split_padding>2</shadow_split_padding>
+        </plugin> -->
+      </visual>
+    </link>
+  </model>
+</sdf>
