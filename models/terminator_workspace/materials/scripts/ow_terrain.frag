@@ -49,7 +49,6 @@ in vec4 spotlightTexCoord1;
 uniform samplerCube irradianceMap;
 uniform sampler2D normalMap;
 uniform sampler2D detailNormalHeightMap;
-uniform sampler2D linkTracksHeightMap;
 uniform sampler2D spotlightMap;
 
 // output
@@ -240,24 +239,7 @@ void main()
   vec3 normal = texture(normalMap, newUV).xyz * 2.0 - 1.0;
   vec4 detailNormalHeight1 = texture(detailNormalHeightMap, wsPos.xy * 0.1) * vec4(2.0, 2.0, 2.0, 1.0) - vec4(1.0, 1.0, 1.0, 0.0);
   vec4 detailNormalHeight2 = texture(detailNormalHeightMap, wsPos.xy * 0.971) * vec4(2.0, 2.0, 2.0, 1.0) - vec4(1.0, 1.0, 1.0, 0.0);
-  vec4 detailNormalHeight3 = texture(detailNormalHeightMap, wsPos.xy * 4.321) * vec4(2.0, 2.0, 2.0, 1.0) - vec4(1.0, 1.0, 1.0, 0.0);
-  vec3 detailNormal = blendNormals(detailNormalHeight1.xyz, detailNormalHeight2.xyz, 1.0);
-  
-  // tracks from scoop
-  float trackMix = texture(linkTracksHeightMap, newUV).r;
-  if (trackMix < 1.0) {
-    // Create normal from heightmap gradient
-    float normalStrength = 0.8;
-    float du = textureOffset(linkTracksHeightMap, newUV, ivec2(-1, 0)).r -
-               textureOffset(linkTracksHeightMap, newUV, ivec2( 1, 0)).r;
-    float dv = textureOffset(linkTracksHeightMap, newUV, ivec2( 0, 1)).r -
-               textureOffset(linkTracksHeightMap, newUV, ivec2( 0,-1)).r;
-    vec3 trackNormal = normalize(vec3(du, dv, 1.0/normalStrength));
-    vec3 trackDetail = blendNormals(trackNormal, detailNormalHeight3.xyz, 0.75);
-    detailNormal = mix(trackDetail, detailNormal, trackMix);
-  }
-  
-  vec3 wsFinalNormal = blendNormals(normal, detailNormal, 1.0);
+  vec3 wsFinalNormal = blendNormals(normal, blendNormals(detailNormalHeight1.xyz, detailNormalHeight2.xyz, 1.0), 1.0);
   float finalHeight = detailNormalHeight1.a * 0.9 + detailNormalHeight2.a * 0.1;
 
   vec3 diffuse = vec3(0);
