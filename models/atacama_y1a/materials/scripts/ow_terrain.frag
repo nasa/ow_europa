@@ -49,6 +49,7 @@ in vec4 spotlightTexCoord1;
 uniform samplerCube irradianceMap;
 uniform sampler2D normalMap;
 uniform sampler2D detailNormalHeightMap;
+uniform sampler2D albedoMap;
 uniform sampler2D spotlightMap;
 
 // output
@@ -106,21 +107,22 @@ float calcPSSMDepthShadow(
   sampler2DShadow shadowMap0, sampler2DShadow shadowMap1, sampler2DShadow shadowMap2,
   vec4 lsPos0, vec4 lsPos1, vec4 lsPos2,
   float invShadowmapSize0, float invShadowmapSize1, float invShadowmapSize2,
-  vec4 pssmSplitPoints, float camDepth)
+  vec4 pssmSplitPoints, float camDepth, float slopeScaleBias)
 {
   float shadow = 1.0;
+  vec4 bias = vec4(0.0, 0.0, slopeScaleBias, 0.0);
   // calculate shadow
   if (camDepth <= pssmSplitPoints.x)
   {
-    shadow = calcDepthShadow(shadowMap0, lsPos0, invShadowmapSize0);
+    shadow = calcDepthShadow(shadowMap0, lsPos0 + bias, invShadowmapSize0);
   }
   else if (camDepth <= pssmSplitPoints.y)
   {
-    shadow = calcDepthShadow(shadowMap1, lsPos1, invShadowmapSize1);
+    shadow = calcDepthShadow(shadowMap1, lsPos1 + bias, invShadowmapSize1);
   }
   else
   {
-    shadow = calcDepthShadow(shadowMap2, lsPos2, invShadowmapSize2);
+    shadow = calcDepthShadow(shadowMap2, lsPos2 + bias, invShadowmapSize2);
   }
   return shadow;
 }
@@ -182,10 +184,14 @@ void lighting(vec3 wsDirToSun, vec3 wsDirToEye, vec3 wsNormal, vec4 wsDetailNorm
   const float specular_power = 100.0;
 
   // shadows
+  // Compute shadow lookup bias using formula from http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-16-shadow-mapping/
+  // Have not found a way to this by calling glPolygonOffset from Gazebo/Ogre.
+  float cosTheta = clamp(dot(wsNormal, wsDirToSun), 0.0, 1.0);
+  float slopeScaleBias = clamp(0.000001 * tan(acos(cosTheta)), 0.0, 0.000005);
   float shadow = calcPSSMDepthShadow(shadowMap0, shadowMap1, shadowMap2,
                                      lsPos0, lsPos1, lsPos2,
                                      inverseShadowmapSize0, inverseShadowmapSize1, inverseShadowmapSize2,
-                                     pssmSplitPoints, -vsPos.z);
+                                     pssmSplitPoints, -vsPos.z, slopeScaleBias);
 
   // Only the highest parts of bumps should be lit when sun is at glancing angles
   // This removes a great deal of impossible light in shaded areas and hides shadow artifacts.
@@ -237,18 +243,17 @@ void main()
   vec2 newUV = (uvTransform * vec4(wsHeightmapUV, 0.0f, 1.0f)).xy;
 
   vec3 normal = texture(normalMap, newUV).xyz * 2.0 - 1.0;
-  vec4 detailNormalHeight1 = texture(detailNormalHeightMap, wsPos.xy * 0.1) * vec4(2.0, 2.0, 2.0, 1.0) - vec4(1.0, 1.0, 1.0, 0.0);
-  vec4 detailNormalHeight2 = texture(detailNormalHeightMap, wsPos.xy * 0.971) * vec4(2.0, 2.0, 2.0, 1.0) - vec4(1.0, 1.0, 1.0, 0.0);
-  vec3 wsFinalNormal = blendNormals(normal, blendNormals(detailNormalHeight1.xyz, detailNormalHeight2.xyz, 1.0), 1.0);
-  float finalHeight = detailNormalHeight1.a * 0.9 + detailNormalHeight2.a * 0.1;
+  vec4 detailNormalHeight = texture(detailNormalHeightMap, wsPos.xy * 9.171) * vec4(2.0, 2.0, 2.0, 1.0) - vec4(1.0, 1.0, 1.0, 0.0);
+  vec3 wsFinalNormal = blendNormals(normal, detailNormalHeight.xyz, 1.0);
+  float finalHeight = detailNormalHeight.a;
 
   vec3 diffuse = vec3(0);
   vec3 specular = vec3(0);
   lighting(normalize(wsSunPosition.xyz), normalize(wsVecToEye), normal, vec4(wsFinalNormal.xyz, finalHeight), diffuse, specular);
 
   // Europa albedo from here https://www.space.com/15498-europa-sdcmp.html is 0.64
-  // In the future we might want to apply this term partially or fully with texture maps.
-  diffuse *= vec3(0.6, 0.6, 0.68);
+  // and atacama_y1a_0.0024m.png has an albedo of 0.74, so we scale it a little.
+  diffuse *= texture(albedoMap, newUV).rgb * 0.865;
   // specular is currently just a guess
   specular *= 0.2;
 

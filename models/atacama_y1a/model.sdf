@@ -36,25 +36,30 @@
             <sampling>1</sampling>
             <size>5 5 0.367</size>
             <pos>0 0 -932.284</pos>
-            <texture>
-              <diffuse>file://atacama_y1a/materials/textures/atacama_y1a_0.0024m.png</diffuse>
-              <normal>file://atacama_y1a/materials/textures/atacama_y1a_0.0024m-normalmap.png</normal>
-              <size>5</size>
-            </texture>
           </heightmap>
         </geometry>
+        <material>
+          <script>
+            <uri>model://atacama_y1a/materials/scripts</uri>
+            <uri>model://atacama_y1a/materials/textures</uri>
+            <uri>model://terminator/materials/textures</uri>
+            <name>ow/terrain</name>
+          </script>
+        </material>
         <plugin name="ow_dynamic_terrain_visual" filename="libow_dynamic_terrain_visual.so" />
         <plugin name="lod" filename="libHeightmapLODPlugin.so">
           <lod>0</lod>
           <skirt_length>0.0</skirt_length>
         </plugin>
-        <!-- <plugin name="shadow_params" filename="libIRGShadowParametersVisualPlugin.so">
+        <plugin name="shadow_params" filename="libIRGShadowParametersVisualPlugin.so">
           <shadow_texture_size>4096</shadow_texture_size>
           <shadow_near>0.1</shadow_near>
           <shadow_far>500</shadow_far>
           <shadow_split_lambda>0.97</shadow_split_lambda>
           <shadow_split_padding>2</shadow_split_padding>
-        </plugin> -->
+        </plugin>
+        <!-- This will show shader changes in real-time. DO NOT check this into version control enabled. -->
+        <!--plugin name="ReloadShaders" filename="libIRGReloadShadersPlugin.so" /-->
       </visual>
     </link>
   </model>
