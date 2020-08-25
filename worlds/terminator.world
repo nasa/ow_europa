@@ -8,7 +8,6 @@
 
     <scene>
       <ambient>0.0 0.0 0.0 1</ambient>
-      <!-- background>0.2 0.2 0.5 1</background -->
       <background>0.0 0.0 0.0 1</background>
       <shadows>1</shadows>
       <grid>false</grid>
