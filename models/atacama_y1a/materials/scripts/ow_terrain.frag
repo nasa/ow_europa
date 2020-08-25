@@ -91,14 +91,14 @@ float calcDepthShadow(sampler2DShadow shadowMap, vec4 uv, float invShadowMapSize
     vec2( -0.491072397165, 0.263378713033 ), 
     vec2( 0.0606228609526, 0.851023996335 )
   );
-  for (int i = 0; i < 9; i++)
+  for (int i = 0; i < poissonDisk.length(); i++)
   {
     vec4 newUV = uv;
     newUV.xy += poissonDisk[i] * invShadowMapSize;
     newUV = newUV / newUV.w;
     shadow += texture(shadowMap, newUV.xyz);
   }
-  shadow /= 9.0;
+  shadow /= poissonDisk.length();
 
   return smoothstep(0.0, 1.0, shadow);
 }
