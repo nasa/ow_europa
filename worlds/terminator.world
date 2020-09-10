@@ -17,7 +17,7 @@
     <physics type='ode'>
       <ode>
         <solver>
-          <type>world</type>
+          <type>quick</type>
         </solver>
       </ode>
       <max_step_size>0.0025</max_step_size>
