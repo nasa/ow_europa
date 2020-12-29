@@ -2,6 +2,7 @@
 <sdf version="1.6">
 
   <model name="heightmap">
+    <plugin name="ow_dynamic_terrain_model" filename="libow_dynamic_terrain_model.so"/>
     <pose>0 0 0  0 0 0</pose>
     <static>true</static>
     <link name="link">
@@ -44,9 +45,10 @@
             <name>ow/terrain</name>
           </script>
         </material>
+        <plugin name="ow_dynamic_terrain_visual" filename="libow_dynamic_terrain_visual.so" />
         <plugin name="lod" filename="libHeightmapLODPlugin.so">
-          <lod>3</lod>
-          <skirt_length>0.1</skirt_length>
+          <lod>0</lod>
+          <skirt_length>0.0</skirt_length>
         </plugin>
         <plugin name="shadow_params" filename="libIRGShadowParametersVisualPlugin.so">
           <shadow_texture_size>4096</shadow_texture_size>
