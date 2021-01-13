@@ -185,7 +185,8 @@ void lighting(vec3 wsDirToSun, vec3 wsDirToEye, vec3 wsNormal, vec4 wsDetailNorm
 
   // shadows
   // Compute shadow lookup bias using formula from http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-16-shadow-mapping/
-  // Have not found a way to this by calling glPolygonOffset from Gazebo/Ogre.
+  // Should be able to bake this bias into the shadow map using constant_bias
+  // and slope_scale_bias in IRGShadowParametersPlugins, but it doesn't work.
   float cosTheta = clamp(dot(wsNormal, wsDirToSun), 0.0, 1.0);
   float slopeScaleBias = clamp(0.000001 * tan(acos(cosTheta)), 0.0, 0.000005);
   float shadow = calcPSSMDepthShadow(shadowMap0, shadowMap1, shadowMap2,
