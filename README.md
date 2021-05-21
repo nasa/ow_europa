@@ -35,3 +35,20 @@ This repository contains models of mission sites on Europa. It is a separate
 repository because it will potentially contain very large amounts of data that
 we do not want to mix with smaller code repositories.
 
+### atacama_y1a
+This is currently the only model most users will use. It has high-res geometry
+so that it can be modified by ow_dynamic_terrain. Eventually we want to expand
+it to extend out to the horizon.
+
+### terminator_workspace
+Also a high-res model, `terminator_workspace` was a temporary model created
+while we didn't have any other high-res terrain.
+
+### terminator
+The only model we currently have that extends to the horizon, this might be a
+starting place for adding a high-res workspace where the lander can dig.
+
+### test_dem
+This model was used to test terrain modeling ideas, but it has no specific use
+on its own.
+
