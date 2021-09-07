@@ -56,8 +56,6 @@
           <shadow_split_lambda>0.97</shadow_split_lambda>
           <shadow_split_padding>2</shadow_split_padding>
         </plugin>
-        <!-- This will show shader changes in real-time. DO NOT check this into version control enabled. -->
-        <!--plugin name="ReloadShaders" filename="libIRGReloadShadersPlugin.so" /-->
       </visual>
     </link>
     <plugin name="ow_dynamic_terrain_model" filename="libow_dynamic_terrain_model.so" />
