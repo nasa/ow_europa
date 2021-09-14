@@ -41,6 +41,7 @@
             <uri>model://terminator_workspace/materials/scripts</uri>
             <uri>model://terminator_workspace/materials/textures</uri>
             <uri>model://terminator/materials/textures</uri>
+            <uri>$(find ow_lander)/materials/textures</uri>
             <name>ow/terrain</name>
           </script>
         </material>

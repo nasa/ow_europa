@@ -43,6 +43,7 @@
             <uri>model://atacama_y1a/materials/scripts</uri>
             <uri>model://atacama_y1a/materials/textures</uri>
             <uri>model://terminator/materials/textures</uri>
+            <uri>$(find ow_lander)/materials/textures</uri>
             <name>ow/terrain</name>
           </script>
         </material>

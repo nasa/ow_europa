@@ -40,6 +40,7 @@
           <script>
             <uri>model://terminator/materials/scripts</uri>
             <uri>model://terminator/materials/textures</uri>
+            <uri>$(find ow_lander)/materials/textures</uri>
             <name>ow/terrain</name>
           </script>
         </material>
