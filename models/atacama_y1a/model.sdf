@@ -43,6 +43,7 @@
             <uri>model://atacama_y1a/materials/scripts</uri>
             <uri>model://atacama_y1a/materials/textures</uri>
             <uri>model://terminator/materials/textures</uri>
+            <uri>$(find ow_lander)/materials/textures</uri>
             <name>ow/terrain</name>
           </script>
         </material>
@@ -58,8 +59,6 @@
           <shadow_split_lambda>0.97</shadow_split_lambda>
           <shadow_split_padding>2</shadow_split_padding>
         </plugin>
-        <!-- This will show shader changes in real-time. DO NOT check this into version control enabled. -->
-        <!--plugin name="ReloadShaders" filename="libIRGReloadShadersPlugin.so" /-->
       </visual>
     </link>
   </model>

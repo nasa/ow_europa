@@ -40,8 +40,7 @@
       <uri>model://test_dem</uri>
     </include>
 
-    <!-- Apply camera sim plugin to GUI camera -->
-    <model name="gui_camera_sim">
+    <model name="global_plugins_loader">
       <static>true</static>
       <link name="link">
         <visual name="visual">
@@ -57,6 +56,8 @@
             <shot_noise>0.0</shot_noise>
           </plugin>
           <plugin name="GlobalShaderParam" filename="libIRGGlobalShaderParamPlugin.so" />
+          <!-- This will show shader changes in real-time. DO NOT check this into version control enabled. -->
+          <!--plugin name="ReloadShaders" filename="libIRGReloadShadersPlugin.so" /-->
         </visual>
       </link>
     </model>
