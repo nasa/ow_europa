@@ -42,7 +42,7 @@
             <uri>model://test_dem/materials/scripts</uri>
             <uri>model://test_dem/materials/textures</uri>
             <uri>model://terminator/materials/textures</uri>
-            <uri>$(find ow_lander)/materials/textures</uri>
+            <uri>file://../../ow_simulator/ow_lander/materials/textures/lander_light_beam.png</uri>
             <name>ow/terrain</name>
           </script>
         </material>
