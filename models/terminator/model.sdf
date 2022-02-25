@@ -56,6 +56,12 @@
           <shadow_split_padding>2</shadow_split_padding>
         </plugin>
       </visual>
+      <sensor name="contact_sensor" type="contact">
+        <contact>
+          <collision>collision</collision>
+        </contact>
+        <plugin name='terrain_contact_sensor' filename='libTerrainContactPlugin.so'/>
+      </sensor>
     </link>
   </model>
 </sdf>
