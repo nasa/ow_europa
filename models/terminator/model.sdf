@@ -63,6 +63,7 @@
         <plugin name="contact_sensor_terrain_plugin"
                 filename="libContactSensorPlugin.so">
           <topic>/ow_regolith/contacts/terrain</topic>
+          <report_only>regolith_\d*.*</report_only>
         </plugin>
       </sensor>
     </link>
