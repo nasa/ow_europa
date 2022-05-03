@@ -60,6 +60,16 @@
           <shadow_split_padding>2</shadow_split_padding>
         </plugin>
       </visual>
+      <sensor name="contact_sensor_terrain" type="contact">
+        <contact>
+          <collision>collision</collision>
+        </contact>
+        <plugin name="contact_sensor_terrain_plugin"
+                filename="libContactSensorPlugin.so">
+          <topic>/ow_regolith/contacts/terrain</topic>
+          <report_only>regolith_\d*.*</report_only>
+        </plugin>
+      </sensor>
     </link>
   </model>
 </sdf>
