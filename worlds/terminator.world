@@ -12,6 +12,8 @@
       <shadows>1</shadows>
       <grid>false</grid>
       <origin_visual>false</origin_visual>
+      <!-- Render shadows using front faces instead of back faces -->
+      <ignition:shadow_caster_render_back_faces>0</ignition:shadow_caster_render_back_faces>
     </scene>
 
     <physics type='ode'>
