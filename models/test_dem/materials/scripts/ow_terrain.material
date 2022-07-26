@@ -93,8 +93,9 @@ material ow/terrain
 
       texture_unit ow_irradiance_environment_map {}
 
+      // Any texture here will be overridden by libow_dynamic_terrain_visual.so
       texture_unit ow_dynamic_terrain_normal_map {
-        texture test_dem-normals.png 2d
+        //texture test_dem-normals.png 2d
         filtering anisotropic anisotropic linear
         max_anisotropy 16
         tex_address_mode wrap
