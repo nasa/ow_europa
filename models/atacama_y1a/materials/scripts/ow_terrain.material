@@ -94,8 +94,9 @@ material ow/terrain
 
       texture_unit ow_irradiance_environment_map {}
 
-      texture_unit normals {
-        texture atacama_y1a_0.0024m-normalmap.png 2d
+      // Any texture here will be overridden by libow_dynamic_terrain_visual.so
+      texture_unit ow_dynamic_terrain_normal_map {
+        //texture atacama_y1a_0.0024m-normalmap.png 2d
         filtering anisotropic anisotropic linear
         max_anisotropy 16
         tex_address_mode wrap

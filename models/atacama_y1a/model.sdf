@@ -2,8 +2,6 @@
 <sdf version="1.6">
 
   <model name="heightmap">
-
-    <plugin name="ow_dynamic_terrain_model" filename="libow_dynamic_terrain_model.so"/>
     <pose>0 0 0  0 0 0</pose>
     <static>true</static>
     <link name="terrain-link">
@@ -71,5 +69,6 @@
         </plugin>
       </sensor>
     </link>
+    <plugin name="ow_dynamic_terrain_model" filename="libow_dynamic_terrain_model.so" />
   </model>
 </sdf>
