@@ -12,6 +12,8 @@
       <shadows>1</shadows>
       <grid>false</grid>
       <origin_visual>false</origin_visual>
+      <!-- Render shadows using front faces instead of back faces -->
+      <ignition:shadow_caster_render_back_faces>0</ignition:shadow_caster_render_back_faces>
     </scene>
 
     <physics type='ode'>
@@ -51,8 +53,8 @@
             <exposure>0.05</exposure>
             <gamma>1.0</gamma>
             <energy_conversion>0.005</energy_conversion>
-            <read_noise>0.0</read_noise>
-            <shot_noise>0.0</shot_noise>
+            <read_noise_std_dev>0.0</read_noise_std_dev>
+            <shot_noise_coeff>0.0</shot_noise_coeff>
           </plugin>
           <plugin name="GlobalShaderParam" filename="libIRGGlobalShaderParamPlugin.so" />
           <!-- This will show shader changes in real-time. DO NOT check this into version control enabled. -->
