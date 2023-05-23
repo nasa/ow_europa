@@ -1,1 +1,1 @@
-../../../terminator/materials/scripts/ow_terrain.frag
+../../../atacama_y1a/materials/scripts/ow_terrain.frag
