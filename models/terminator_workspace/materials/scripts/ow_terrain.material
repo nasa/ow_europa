@@ -50,6 +50,7 @@ fragment_program ow_terrain_frag glsl
     param_named irradianceMap                  int 3
     param_named normalMap                      int 4
     param_named detailNormalHeightMap          int 5
+    param_named albedoMap                      int 6
 
     // lander lights
     // Control status of lander lights (spotlights)
@@ -61,7 +62,7 @@ fragment_program ow_terrain_frag glsl
     param_named_auto lightAtten                light_attenuation_array 3
     param_named_auto spotlightParams           spotlight_params_array 3
     // spotlight texture
-    param_named spotlightMap                   int 6
+    param_named spotlightMap                   int 7
   }
 }
 
@@ -96,14 +97,21 @@ material ow/terrain
       // Any texture here will be overridden by libow_dynamic_terrain_visual.so
       texture_unit ow_dynamic_terrain_normal_map {
         //texture workspace-normals.tif 2d
-        filtering anisotropic anisotropic linear
+        filtering anisotropic
         max_anisotropy 16
         tex_address_mode wrap
       }
 
       texture_unit {
         texture ice-normals-heights.png 2d
-        filtering anisotropic anisotropic linear
+        filtering anisotropic
+        max_anisotropy 16
+        tex_address_mode wrap
+      }
+
+      texture_unit albedoMap {
+        texture default_albedo.png 2d
+        filtering anisotropic
         max_anisotropy 16
         tex_address_mode wrap
       }

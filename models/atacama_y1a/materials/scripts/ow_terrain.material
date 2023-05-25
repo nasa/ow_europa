@@ -97,21 +97,21 @@ material ow/terrain
       // Any texture here will be overridden by libow_dynamic_terrain_visual.so
       texture_unit ow_dynamic_terrain_normal_map {
         //texture atacama_y1a_0.0024m-normalmap.png 2d
-        filtering anisotropic anisotropic linear
+        filtering anisotropic
         max_anisotropy 16
         tex_address_mode wrap
       }
 
       texture_unit {
         texture ice-normals-heights.png 2d
-        filtering anisotropic anisotropic linear
+        filtering anisotropic
         max_anisotropy 16
         tex_address_mode wrap
       }
 
       texture_unit albedoMap {
         texture atacama_y1a_0.0024m.png 2d
-        filtering anisotropic anisotropic linear
+        filtering anisotropic
         max_anisotropy 16
         tex_address_mode wrap
       }
