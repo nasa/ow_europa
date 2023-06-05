@@ -40,9 +40,6 @@ fragment_program ow_terrain_frag glsl
     param_named shadowMap0                     int 0
     param_named shadowMap1                     int 1
     param_named shadowMap2                     int 2
-    param_named_auto inverseShadowmapSize[0]   inverse_texture_size 0
-    param_named_auto inverseShadowmapSize[1]   inverse_texture_size 1
-    param_named_auto inverseShadowmapSize[2]   inverse_texture_size 2
     // This line is sometimes necessary, but not usually. Perhaps it is a Gazebo bug.
     param_named pssmSplitPoints                float4 6.66067 38.364 500 0
 
@@ -50,6 +47,7 @@ fragment_program ow_terrain_frag glsl
     param_named irradianceMap                  int 3
     param_named normalMap                      int 4
     param_named detailNormalHeightMap          int 5
+    param_named albedoMap                      int 6
 
     // lander lights
     // Control status of lander lights (spotlights)
@@ -61,7 +59,7 @@ fragment_program ow_terrain_frag glsl
     param_named_auto lightAtten                light_attenuation_array 3
     param_named_auto spotlightParams           spotlight_params_array 3
     // spotlight texture
-    param_named spotlightMap                   int 6
+    param_named spotlightMap                   int 7
   }
 }
 
@@ -93,16 +91,24 @@ material ow/terrain
 
       texture_unit ow_irradiance_environment_map {}
 
+      // Any texture here will be overridden by libow_dynamic_terrain_visual.so
       texture_unit ow_dynamic_terrain_normal_map {
         texture terminator-normals.tif 2d
-        filtering anisotropic anisotropic linear
+        filtering anisotropi
         max_anisotropy 16
         tex_address_mode wrap
       }
 
       texture_unit {
         texture ice-normals-heights.png 2d
-        filtering anisotropic anisotropic linear
+        filtering anisotropic
+        max_anisotropy 16
+        tex_address_mode wrap
+      }
+
+      texture_unit albedoMap {
+        texture default_albedo.png 2d
+        filtering anisotropic
         max_anisotropy 16
         tex_address_mode wrap
       }
