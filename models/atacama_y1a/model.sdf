@@ -72,7 +72,7 @@
     <plugin name="ow_dynamic_terrain_model" filename="libow_dynamic_terrain_model.so" />
     <plugin name="materials_distribution_plugin" filename="libMaterialDistributionPlugin.so">
       <corner_a>0  -1   0.3</corner_a>
-      <corner_b>1.3 1  0.16</corner_b>
+      <corner_b>1.3 1   0.0</corner_b>
       <cell_side_length>0.005</cell_side_length>
     </plugin>
   </model>
