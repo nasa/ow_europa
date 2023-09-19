@@ -44,7 +44,9 @@ in vec4 spotlightTexCoord[2];
 uniform samplerCube irradianceMap;
 uniform sampler2D normalMap;
 uniform sampler2D detailNormalHeightMap;
+uniform sampler2D snowNormalMap;
 uniform sampler2D albedoMap;
+uniform sampler2D materialMaskMap;
 uniform sampler2D spotlightMap;
 
 // output
@@ -206,12 +208,12 @@ void lighting(vec3 wsDirToSun, vec3 wsDirToEye, vec3 wsNormal, vec4 wsDetailNorm
 
   // directional light diffuse
   float sundiffuse = max(dot(wsDetailNormalHeight.xyz, wsDirToSun), 0.0);
-  diffuse += sunIntensity * (sundiffuse * visibility);
+  diffuse = sunIntensity * (sundiffuse * visibility);
 
   // directional light specular
   vec3 reflectvec = reflect(-wsDirToEye, wsDetailNormalHeight.xyz);
   float sunspec = pow(max(dot(wsDirToSun, reflectvec), 0.0), specular_power);
-  specular += sunIntensity * (sunspec * visibility);
+  specular = sunIntensity * (sunspec * visibility);
 
   // irradiance diffuse (area light source simulation)
   // Gazebo is z-up but Ogre is y-up. Must rotate before cube texture lookup.
@@ -242,6 +244,52 @@ void lighting(vec3 wsDirToSun, vec3 wsDirToEye, vec3 wsNormal, vec4 wsDetailNorm
   }
 }
 
+/**
+ * Blend amounts for tri-planar blending
+ */
+vec3 triPlanarBlending(vec3 normal) 
+{
+  vec3 blend = normal * normal;
+  blend *= blend;
+  return blend / dot(blend, vec3(1,1,1));
+}
+
+/**
+ * Tri-planar texturing using reoriented normal mapping method from
+ * https://bgolus.medium.com/normal-mapping-for-a-triplanar-shader-10bf39dca05a
+ */
+vec3 triPlanarNormalMapping(vec3 wsPos, vec3 osNormal)
+{
+  vec2 xuv = wsPos.zy * 5.0;
+  vec2 yuv = wsPos.xz * 5.0;
+  vec2 zuv = wsPos.xy * 5.0;
+  // Invert Y coordinate to have correct addressing of texels. Otherwise, lighting is inverted.
+  xuv.y *= -1.0;
+  yuv.y *= -1.0;
+  zuv.y *= -1.0;
+
+  vec3 tsNormalX = texture2D(snowNormalMap, xuv).rgb * vec3(2.0) - vec3(1.0);
+  vec3 tsNormalY = texture2D(snowNormalMap, yuv).rgb * vec3(2.0) - vec3(1.0);
+  vec3 tsNormalZ = texture2D(snowNormalMap, zuv).rgb * vec3(2.0) - vec3(1.0);
+
+  // reorient normals
+  vec3 absOsNormal = abs(osNormal);
+  tsNormalX = blendNormals(vec3(osNormal.zy, absOsNormal.x), tsNormalX, 1.0);
+  tsNormalY = blendNormals(vec3(osNormal.xz, absOsNormal.y), tsNormalY, 1.0);
+  tsNormalZ = blendNormals(vec3(osNormal.xy, absOsNormal.z), tsNormalZ, 1.0);
+  // reapply sign to z components
+  vec3 signOsNormal = sign(osNormal);
+  tsNormalX.z *= signOsNormal.x;
+  tsNormalY.z *= signOsNormal.y;
+  tsNormalZ.z *= signOsNormal.z;
+
+  // blend normals projected from 3 directions
+  vec3 blending = triPlanarBlending(osNormal);
+  vec3 wsNormal = tsNormalX.zyx * blending.x + tsNormalY.xzy * blending.y + tsNormalZ * blending.z;
+
+  return wsNormal;
+}
+
 void main()
 {
   vec2 newUV = (uvTransform * vec4(wsHeightmapUV, 0.0f, 1.0f)).xy;
@@ -251,15 +299,29 @@ void main()
   vec3 wsFinalNormal = blendNormals(normal, detailNormalHeight.xyz, 1.0);
   float finalHeight = detailNormalHeight.a;
 
+  // Europa albedo from here https://www.space.com/15498-europa-sdcmp.html is 0.64
+  // and atacama_y1a_0.0024m.png has an albedo of 0.74, so we scale it a little.
+  vec3 albedo = texture(albedoMap, newUV).rgb * 0.865;
+  // specular is currently just a guess
+  float specularAmount = 0.2;
+
+  // Render grinder tailings material
+  float grinderTailingsT = texture(materialMaskMap, newUV).b;
+  if (grinderTailingsT < 1.0)
+  {
+    vec3 wsGrinderTailingsNormal = triPlanarNormalMapping(wsPos, normal);
+    wsFinalNormal = mix(wsGrinderTailingsNormal, wsFinalNormal, grinderTailingsT);
+    finalHeight = mix(0.5, finalHeight, grinderTailingsT);
+    albedo = mix(vec3(0.9), albedo, grinderTailingsT);
+    specularAmount = mix(0.9, specularAmount, grinderTailingsT);
+  }
+
   vec3 diffuse = vec3(0);
   vec3 specular = vec3(0);
   lighting(normalize(wsSunPosition.xyz), normalize(wsVecToEye), normal, vec4(wsFinalNormal.xyz, finalHeight), diffuse, specular);
 
-  // Europa albedo from here https://www.space.com/15498-europa-sdcmp.html is 0.64
-  // and atacama_y1a_0.0024m.png has an albedo of 0.74, so we scale it a little.
-  diffuse *= texture(albedoMap, newUV).rgb * 0.865;
-  // specular is currently just a guess
-  specular *= 0.2;
-
+  diffuse *= albedo;
+  specular *= specularAmount;
+  
   outputCol = vec4(diffuse + specular, 1.0);
 }
