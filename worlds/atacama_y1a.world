@@ -58,7 +58,7 @@
           </plugin>
           <plugin name="GlobalShaderParam" filename="libIRGGlobalShaderParamPlugin.so" />
           <!-- This will show shader changes in real-time. DO NOT check this into version control enabled. -->
-          <plugin name="ReloadShaders" filename="libIRGReloadShadersPlugin.so" />
+          <!--plugin name="ReloadShaders" filename="libIRGReloadShadersPlugin.so" /-->
         </visual>
       </link>
     </model>
