@@ -1,7 +1,36 @@
+This repository contains planetary models for OceanWATERS (Ocean
+Worlds Autonomy Testbed for Exploration Research & Simulation).
+Instructions for its installation and use are found in this project's
+main repository, https://github.com/nasa/ow_simulator.
+
+ow_europa
+============
+This repository contains models of mission sites on Europa. It is a separate
+repository because it will potentially contain very large amounts of data that
+we do not want to mix with smaller code repositories.
+
+### atacama_y1a
+This is currently the only model most users will use. It has high-res geometry
+so that it can be modified by ow_dynamic_terrain. Eventually we want to expand
+it to extend out to the horizon.
+
+### terminator_workspace
+Also a high-res model, `terminator_workspace` was a temporary model created
+while we didn't have any other high-res terrain.
+
+### terminator
+The only model we currently have that extends to the horizon, this might be a
+starting place for adding a high-res workspace where the lander can dig.
+
+### test_dem
+This model was used to test terrain modeling ideas, but it has no specific use
+on its own.
+
 Notices:
 --------
-Copyright © 2020 United States Government as represented by the Administrator of
-the National Aeronautics and Space Administration.  All Rights Reserved.
+Copyright © 2020-2023 United States Government as represented by the
+Administrator of the National Aeronautics and Space Administration.
+All Rights Reserved.
 
 Disclaimers
 -----------
@@ -27,28 +56,3 @@ OF THE SUBJECT SOFTWARE, RECIPIENT SHALL INDEMNIFY AND HOLD HARMLESS THE UNITED
 STATES GOVERNMENT, ITS CONTRACTORS AND SUBCONTRACTORS, AS WELL AS ANY PRIOR
 RECIPIENT, TO THE EXTENT PERMITTED BY LAW.  RECIPIENT'S SOLE REMEDY FOR ANY SUCH
 MATTER SHALL BE THE IMMEDIATE, UNILATERAL TERMINATION OF THIS AGREEMENT.
-
-
-ow_europa
-============
-This repository contains models of mission sites on Europa. It is a separate
-repository because it will potentially contain very large amounts of data that
-we do not want to mix with smaller code repositories.
-
-### atacama_y1a
-This is currently the only model most users will use. It has high-res geometry
-so that it can be modified by ow_dynamic_terrain. Eventually we want to expand
-it to extend out to the horizon.
-
-### terminator_workspace
-Also a high-res model, `terminator_workspace` was a temporary model created
-while we didn't have any other high-res terrain.
-
-### terminator
-The only model we currently have that extends to the horizon, this might be a
-starting place for adding a high-res workspace where the lander can dig.
-
-### test_dem
-This model was used to test terrain modeling ideas, but it has no specific use
-on its own.
-
