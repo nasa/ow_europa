@@ -213,7 +213,7 @@ void lighting(vec3 wsDirToSun, vec3 wsDirToEye, vec3 wsNormal, vec4 wsDetailNorm
   // directional light specular
   vec3 reflectvec = reflect(-wsDirToEye, wsDetailNormalHeight.xyz);
   float sunspec = pow(max(dot(wsDirToSun, reflectvec), 0.0), specular_power);
-  specular = sunIntensity * (sunspec * visibility);
+  specular += sunIntensity * (sunspec * visibility);
 
   // irradiance diffuse (area light source simulation)
   // Gazebo is z-up but Ogre is y-up. Must rotate before cube texture lookup.
@@ -260,6 +260,7 @@ vec3 triPlanarBlending(vec3 normal)
  */
 vec3 triPlanarNormalMapping(vec3 wsPos, vec3 osNormal)
 {
+  // Use world coordinates as UV texture coordinates, scaling as desired.
   vec2 xuv = wsPos.zy * 5.0;
   vec2 yuv = wsPos.xz * 5.0;
   vec2 zuv = wsPos.xy * 5.0;
@@ -268,6 +269,7 @@ vec3 triPlanarNormalMapping(vec3 wsPos, vec3 osNormal)
   yuv.y *= -1.0;
   zuv.y *= -1.0;
 
+  // Decode normal map onto 3 orthogonal planes.
   vec3 tsNormalX = texture2D(snowNormalMap, xuv).rgb * vec3(2.0) - vec3(1.0);
   vec3 tsNormalY = texture2D(snowNormalMap, yuv).rgb * vec3(2.0) - vec3(1.0);
   vec3 tsNormalZ = texture2D(snowNormalMap, zuv).rgb * vec3(2.0) - vec3(1.0);
