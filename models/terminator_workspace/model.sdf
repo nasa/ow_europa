@@ -70,5 +70,13 @@
       </sensor>
     </link>
     <plugin name="ow_dynamic_terrain_model" filename="libow_dynamic_terrain_model.so" />
+    <plugin name="materials_distribution_plugin" filename="libMaterialDistributionPlugin.so">
+      <corner_a>0  -1   0.3</corner_a>
+      <corner_b>1.3 1   0.0</corner_b>
+      <cell_side_length>0.005</cell_side_length>
+      <materials>
+        <reference_color material="ICE"> 179 179 204 </reference_color>
+      </materials>
+    </plugin>
   </model>
 </sdf>
