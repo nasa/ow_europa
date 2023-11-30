@@ -51,9 +51,9 @@
           </geometry>
           <plugin name="CameraSim" filename="libIRGCameraSimVisualPlugin.so" >
             <topic_uid>gui</topic_uid>
-            <exposure>0.05</exposure>
+            <exposure>0.001</exposure>
             <gamma>1.0</gamma>
-            <energy_conversion>0.005</energy_conversion>
+            <energy_conversion>80.0</energy_conversion>
             <read_noise_std_dev>0.0</read_noise_std_dev>
             <shot_noise_coeff>0.0</shot_noise_coeff>
           </plugin>
