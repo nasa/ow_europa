@@ -58,9 +58,23 @@
           <shadow_split_padding>2</shadow_split_padding>
         </plugin>
       </visual>
+      <collision name="regolith-removal-plane">
+        <pose relative_to="terrain-link">0 0 -2   0 0 0</pose>
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+            <size>20 20</size>
+          </plane>
+        </geometry>
+        <surface>
+          <contact>
+            <collide-without-contact>true</collide-without-contact>
+          </contact>
+        </surface>
+      </collision>
       <sensor name="contact_sensor_terrain" type="contact">
         <contact>
-          <collision>collision</collision>
+          <collision>regolith-removal-plane</collision>
         </contact>
         <plugin name="contact_sensor_terrain_plugin"
                 filename="libContactSensorPlugin.so">
