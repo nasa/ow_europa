@@ -87,7 +87,7 @@
     <plugin name="materials_distribution_plugin" filename="libMaterialDistributionPlugin.so">
       <corner_a>0  -1   0.3</corner_a>
       <corner_b>1.3 1   0.0</corner_b>
-      <cell_side_length>0.007</cell_side_length>
+      <cell_side_length>0.0075</cell_side_length>
       <materials>
         <reference_color material="ICE">         255 255 255  </reference_color>
         <reference_color material="SALT">        185 170 189  </reference_color>
