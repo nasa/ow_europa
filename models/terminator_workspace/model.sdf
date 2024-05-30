@@ -70,5 +70,6 @@
       </sensor>
     </link>
     <plugin name="ow_dynamic_terrain_model" filename="libow_dynamic_terrain_model.so" />
+    <plugin name="materials_distribution_plugin" filename="libMaterialDistributionPlugin.so" />
   </model>
 </sdf>
