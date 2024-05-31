@@ -84,7 +84,12 @@
       </sensor>
     </link>
     <plugin name="ow_dynamic_terrain_model" filename="libow_dynamic_terrain_model.so" />
-    <plugin name="materials_distribution_plugin" filename="libMaterialDistributionPlugin.so">
+    <plugin name="materials_distribution_plugin"
+            filename="libMaterialDistributionPlugin.so">
+      <!-- NOTE: The grid requires a surface level to the XY plane, so that it
+           can align with operations happening to the terrain heightmap;
+           therefore, only models level to the XY plane should be used as
+           in the relative_to parameter. -->
       <relative_to>base_link</relative_to>
       <corner_a>1  -1   0.1</corner_a>
       <corner_b>2.3 1   -0.37</corner_b>
