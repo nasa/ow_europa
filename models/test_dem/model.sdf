@@ -59,6 +59,9 @@
         </plugin>
       </visual>
     </link>
-    <plugin name="ow_dynamic_terrain_model" filename="libow_dynamic_terrain_model.so" />
+    <!-- This world does not support dynamic terrain, but including the dynamic
+         terrain model plugin suppresses an frequent ODE message. -->
+    <plugin name="ow_dynamic_terrain_model"
+            filename="libow_dynamic_terrain_model.so" />
   </model>
 </sdf>
